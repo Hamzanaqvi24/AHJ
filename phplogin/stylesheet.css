@@ -1,0 +1,113 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+.twitterborder{
+    width:30%;
+    height:400px;
+    margin: 25px 0 50px 3%;
+    float:left;
+    background: white;
+    position: relative;
+    bottom: -10%;
+    padding: 20px;
+}
+.taggbox-container{
+    position: relative;
+    margin-right: 100px;
+}
+.main-footer {
+    background-color: #132257;
+    clear: both;
+}
+.main-footer p {
+    text-align: center;
+    color: white;
+    padding: 1em 0;
+}
+hr{
+    border-top: 1px solid #132257;
+    margin: auto;
+    width: 50%;
+}
+.taggbox-container{
+    padding: 34px;
+    margin: 0 0 0 37%;
+}
+.history h2 {
+    font-size: 30px;
+    text-align: center;
+    color: #132257;
+    font-family: "Comic Sans MS", sans-serif;
+}
+.history img{
+    display: block;
+    margin-right: auto ;
+    margin-left: auto;;
+    padding: 10px;
+}
+.history p{
+    color: #132257;
+    font-size: 16px;
+    font-family: "Comic Sans MS", sans-serif;
+    font-weight: 400;
+    line-height: 22px;
+    padding: 10px;
+}
+.history{
+    flex-basis: 31%;
+    background: white;
+    border-radius: 20px;
+    margin-bottom: 2%;
+    padding: 50px;
+    box-sizing: border-box;
+}
+.squad h2{
+    font-size: 30px;
+    text-align: center;
+    color: #132257;
+}
+
+.card-title{
+    color: #132257;
+    font-size: 18px;
+    font-family: "Comic Sans MS", sans-serif;
+    text-align: center;
+}
+.fixtures h2{
+    position: absolute;
+    top: 135px;
+    left: 800px;
+}
+.fixtures img {
+    display: block;
+    float: right;
+    margin-left: 743px;
+    margin-right: auto;
+    width: 49%;
+    padding: 10px;
+    position: absolute;
+    top: 210px;
+}
+section{
+    font-family: "Comic Sans MS", sans-serif;
+}
+.ecl img{
+    position: absolute;
+    float: right;
+    margin-left: 750px;
+    width: 48%;
+}
+.container-lg{
+    color: #132257;
+}
+.row{
+    color: #132257;
+}
+.team h2{
+    font-size: 30px;
+    text-align: center;
+    color: #132257;
+    font-family: "Comic Sans MS", sans-serif;
+    padding: 10px;
+}
