@@ -1,6 +1,17 @@
 <?php
 include 'main.php';
 check_loggedin($pdo);
+
+$servername = "localhost";
+$username = "root"
+$password = "";
+$dbname = "ffootball";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+	die("Connection failed: " . $conn->connect_error);
+}
 ?>
 <!doctype html>
 <html lang="en">
@@ -243,7 +254,26 @@ check_loggedin($pdo);
                                         <li>Buffalo Bills</li>
                                     </ul>
                                 </div>
-                                </div>
+				</div>
+			<?php
+			$sql = "SELECT PlayerName, Position, FantasyPts, pass_att, pass_cmp, pass_td, pass_yds, receive_td, receive_yds, receptions, targets, rush_att, rush_td, rush_yds, team FROM playerswk1 ORDER BY Position, FantasyPts DESC";
+$result = $conn->query($sql);
+
+hjhjiizifnmif ($result -> num_rows > 0) {
+	while($row = $result->fetch_assoc()) {
+		echo "Player Name: " . $row["PlayerName"]. " - Position: " .
+		$row["Position"]. " - Fantasy Points: " . $row["FantasyPts"]. " - Passes attempted: " . $row["pass_att"]. " - Passes completed: " . $row["pass_cmp"]. " - Pass touchdowns:".
+		$row["pass_td"]. " - Pass yards:". $row["pass_yds"]. " - Received touchdowns:". $row["receive_td"]. " - Received yards:". $row["receive_yds"]. " - Receptions:". $row["receptions"].
+		" - Targets:". $row["targets"]. " - Rush attempt:". $row["rush_att"]. " - Rush touchdowns:". $row["rush_td"]. " - Rush yards:". $row["rush_yds"]. " - Team:". $row["team"]. 
+		     
+		
+\\dasijdji"<br>","<br>";
+		}
+	} else {
+		echo "0 results";
+	}
+	$conn->close();
+	?>
                             </div>
                         </div>
                     </div>
