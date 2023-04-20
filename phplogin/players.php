@@ -256,24 +256,60 @@ if ($conn->connect_error) {
                                 </div>
 				</div>
 			<?php
-			$sql = "SELECT PlayerName, Position, FantasyPts, pass_att, pass_cmp, pass_td, pass_yds, receive_td, receive_yds, receptions, targets, rush_att, rush_td, rush_yds, team FROM playerswk1 ORDER BY Position, FantasyPts DESC";
+
+$servername = "localhost";
+$username = "root";
+$password = "toor";
+$dbname = "ffootball";
+
+//Connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+$sql = "SELECT PlayerName, Position, FantasyPts, pass_att, pass_cmp, pass_td, pass_yds, receive_td, receive_yds, receptions, targets, rush_att, rush_td, rush_yds, team FROM playerswk1 ORDER BY Position, FantasyPts DESC";
 $result = $conn->query($sql);
 
-	if ($result -> num_rows > 0) {
-	while($row = $result->fetch_assoc()) {
-		echo "Player Name: " . $row["PlayerName"]. " - Position: " .
-		$row["Position"]. " - Fantasy Points: " . $row["FantasyPts"]. " - Passes attempted: " . $row["pass_att"]. " - Passes completed: " . $row["pass_cmp"]. " - Pass touchdowns:".
-		$row["pass_td"]. " - Pass yards:". $row["pass_yds"]. " - Received touchdowns:". $row["receive_td"]. " - Received yards:". $row["receive_yds"]. " - Receptions:". $row["receptions"].
-		" - Targets:". $row["targets"]. " - Rush attempt:". $row["rush_att"]. " - Rush touchdowns:". $row["rush_td"]. " - Rush yards:". $row["rush_yds"]. " - Team:". $row["team"]. 
-		     
-		
-"<br>","<br>";
-		}
-	} else {
-		echo "0 results";
-	}
-	$conn->close();
-	?>
+if ($result -> num_rows > 0) {
+    while($row = $result->fetch_assoc()) {
+        // Add a link to the player's name with a unique ID and a JavaScript onclick event
+        echo "<a href='#' id='player_" . $row['PlayerName'] . "' onclick='postPlayerName(\"" . $row['PlayerName'] . "\")'>Player Name: " . $row["PlayerName"] . "</a> - Position: " .
+        $row["Position"]. " - Fantasy Points: " . $row["FantasyPts"]. " - Passes attempted: " . $row["pass_att"]. " - Passes completed: " . $row["pass_cmp"]. " - Pass touchdowns:".
+        $row["pass_td"]. " - Pass yards:". $row["pass_yds"]. " - Received touchdowns:". $row["receive_td"]. " - Received yards:". $row["receive_yds"]. " - Receptions:". $row["receptions"].
+        " - Targets:". $row["targets"]. " - Rush attempt:". $row["rush_att"]. " - Rush touchdowns:". $row["rush_td"]. " - Rush yards:". $row["rush_yds"]. " - Team:". $row["team"].
+        "<br><br>";
+    }
+} else {
+    echo "0 results";
+}
+$conn->close();
+
+?>
+
+<!-- Add the following JavaScript code after the PHP code -->
+
+<script>
+function postPlayerName(playerName) {
+    // Create a hidden form and append it to the document body
+    var form = document.createElement("form");
+    form.style.display = "none";
+    document.body.appendChild(form);
+
+    // Create a hidden input field for the player name and append it to the form
+    var input = document.createElement("input");
+    input.type = "hidden";
+    input.name = "playerName";
+    input.value = playerName;
+    form.appendChild(input);
+
+    // Set the form's action and method, and submit it
+    form.action = "process.php";
+    form.method = "POST";
+    form.submit();
+}
+</script>
                             </div>
                         </div>
                     </div>
