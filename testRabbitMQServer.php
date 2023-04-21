@@ -4,12 +4,43 @@ require_once('path.inc');
 require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
 
-function doLogin($username,$password)
+
+
+function doLogin($userName,$password)
 {
-    // lookup username in databas
-    // check password
-    return true;
-    //return false if not valid
+  $servername = 'localhost';
+  $uname = 'root';
+  $pw = 'toor';
+  $dbname = 'payload';
+  $conn = new mysqli($servername, $uname, $pw, $dbname);
+  $statement = "SELECT * FROM payload.users WHERE userName = '$userName'";
+  $result = mysqli_query($conn, $statement);
+  $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+  $count = mysqli_num_rows($result);
+  if ($count != 0) {
+    $statement2 = "SELECT password FROM payload.users WHERE userName = '$userName'";
+    $result2 = mysqli_query($conn, $statement2);
+    $row2 = mysqli_fetch_array($result2, MYSQLI_ASSOC);
+    $hashedpass = $row2['password'];
+    if (array_key_exists('password', $row2)) {
+      $hashedpass = $row2['password'];
+    } else {
+      // handle the case where the key doesn't exist
+      return "Could not retrieve password from database";
+    }
+  
+    // Check if the password is correct
+    if (password_verify($password, $hashedpass)) {
+      // Return a success status code
+      return "LoginSuccess";
+    } else {
+      // Return an error status code
+      return "IncorrectPassword";
+    }
+  } else {
+    // Return an error status code
+    return "UserNotFound";
+  }
 }
 
 function requestProcessor($request)
@@ -22,8 +53,8 @@ function requestProcessor($request)
   }
   switch ($request['type'])
   {
-    case "login":
-      return doLogin($request['username'],$request['password']);
+    case "Login":
+      return doLogin($request['userName'],$request['password']);
     case "validate_session":
       return doValidate($request['sessionId']);
   }
