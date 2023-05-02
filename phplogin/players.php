@@ -259,7 +259,7 @@ if ($conn->connect_error) {
 
 $servername = "localhost";
 $username = "root";
-$password = "toor";
+$password = "";
 $dbname = "ffootball";
 
 //Connection
