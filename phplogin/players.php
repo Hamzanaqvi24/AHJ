@@ -329,43 +329,18 @@ function postPlayerName(playerName) {
 </html>
 
 <?php
-$url = 'http://127.0.0.1/getPlayers';
-  
-$curl = curl_init($url);
- 
-function APIcall($method, $url) {
-    $curl = curl_init();
-     
-    switch ($method) {
-        case "GET":
-            curl_setopt($curl, CURLOPT_HTTPGET, true);
-            break;
-    }
-    
-    curl_setopt($curl, CURLOPT_URL, $url);
-    curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-        'Content-Type: application/json',
-    ));
-    
-    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-    $result = curl_exec($curl);
-     
-    if(!$result) {
-        echo("Connection failure!");
-    }
-    curl_close($curl);
-    return $result;
-}
+// Send GET request to API to retrieve all players
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, "http://127.0.0.1:9999/getAllPid");
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+$response = curl_exec($ch);
+curl_close($ch);
 
-// Call the API to get all PIDs
-$data = APIcall("GET", $url);
+// Decode JSON response into PHP array
+$players = json_decode($response, true);
 
-// Decode the JSON response
-$response = json_decode($data, true);
-
-// Loop through each PID and display the data in the same format as before
-if ($response !== null){
-foreach ($response as $player) {
+// Loop through players and display their information
+foreach ($players as $player) {
     echo "Player ID: " . $player["Player ID"] . "<br>";
     echo "Name: " . $player["Name"] . "<br>";
     echo "Position: " . $player["Position"] . "<br>";
@@ -384,6 +359,4 @@ foreach ($response as $player) {
     echo "Team: " . $player["Team"] . "<br>";
     echo "<br>";
 }
-} else {
-	echo("response variable is empty");
 ?>
