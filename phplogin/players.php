@@ -364,6 +364,7 @@ $data = APIcall("GET", $url);
 $response = json_decode($data, true);
 
 // Loop through each PID and display the data in the same format as before
+if ($response !== null){
 foreach ($response as $player) {
     echo "Player ID: " . $player["Player ID"] . "<br>";
     echo "Name: " . $player["Name"] . "<br>";
@@ -383,4 +384,6 @@ foreach ($response as $player) {
     echo "Team: " . $player["Team"] . "<br>";
     echo "<br>";
 }
+} else {
+	echo("response variable is empty");
 ?>
