@@ -89,6 +89,30 @@ def GET_name():
         "Rushed Yards" : result[0][14],
         "Team" : result[0][15]})
 
+@app.route('/getPlayers', methods=['GET'])
+def GET_players():
+    dbquery = "SELECT * from players;"
+    cursor = db.cursor()
+    cursor.execute(dbquery)
+    result = cursor.fetchall()
+    return jsonify({
+        "Player ID": result[0][0],
+        "Name" : result[0][1],
+        "Position" : result[0][2],
+        "Fumbles" : result[0][3],
+        "Passes Attempted" : result[0][4],
+        "Passes Completed" : result[0][5],
+        "Passes Touchdown" : result[0][6],
+        "Passes Yards" : result[0][7],
+        "Received Touchdowns" : result[0][8],
+        "Received Yards" : result[0][9],
+        "Receptions" : result[0][10],
+        "Targets" : result[0][11],
+        "Rush Attempts" : result[0][12],
+        "Rush Touchdowns" : result[0][13],
+        "Rushed Yards" : result[0][14],
+        "Team" : result[0][15]})
+
 #Inserting Player based on Player ID value
 @app.route('/addPlayer', methods=['GET'])
 def add_Player():
@@ -144,20 +168,49 @@ def GET_Pstats():
     cursor.close()
     return result
 
+#Comparing user teams
 @app.route('/fpts', methods=['GET'])
 def GET_fp():
     searchWeek = request.args.get('week', '')
-    searchuid = request.args.get('uid', '')
-    weekNum = "playerswk" + searchWeek
-    dbquery = "SELECT teams.Pid, teams.userId, players.PlayerName, Sum(" + weekNum + ".Fantasypts) AS FantasyTotal from ((players INNER JOIN teams ON players.Pid = teams.Pid) INNER JOIN " + weekNum + " ON players.PlayerName = " + weekNum + ".PlayerName) WHERE teams.userId =" + searchuid + " GROUP BY Pid;"
+    searchuid = request.args.get('userId', '')
+    dbquery = "SELECT teams.Pid, teams.userId, players.PlayerName, Sum(playerswk" + searchWeek + ".Fantasypts) AS FantasyTotal from ((players INNER JOIN teams ON players.Pid = teams.Pid) INNER JOIN playerswk" + searchWeek + " ON players.PlayerName = playerswk" + searchWeek + ".PlayerName) WHERE teams.userId =" + searchuid + " GROUP BY Pid;"
     cursor = db.cursor()
     cursor.execute(dbquery)
     result = cursor.fetchall()
     cursor.close()
     return result
 
+@app.route('/getAllPid', methods=['GET'])
+def GET_all_pids():
+    cursor = db.cursor()
+    dbquery = "SELECT * from players;"
+    cursor.execute(dbquery)
+    results = cursor.fetchall()
+    players = []
+    for result in results:
+        player = {
+            "Player ID": result[0],
+            "Name": result[1],
+            "Position": result[2],
+            "Fumbles": result[3],
+            "Passes Attempted": result[4],
+            "Passes Completed": result[5],
+            "Passes Touchdown": result[6],
+            "Passes Yards": result[7],
+            "Received Touchdowns": result[8],
+            "Received Yards": result[9],
+            "Receptions": result[10],
+            "Targets": result[11],
+            "Rush Attempts": result[12],
+            "Rush Touchdowns": result[13],
+            "Rushed Yards": result[14],
+            "Team": result[15]
+        }
+        players.append(player)
+    return jsonify(players)
+
 #starting API
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=8080, debug=True)
+    app.run(host='127.0.0.1', port=9999, debug=True)
 
 # pip install -r requirement.txt
