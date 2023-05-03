@@ -327,3 +327,60 @@ function postPlayerName(playerName) {
 </div>
 </body>
 </html>
+
+<?php
+$url = 'http://127.0.0.1/getPlayers';
+  
+$curl = curl_init($url);
+ 
+function APIcall($method, $url) {
+    $curl = curl_init();
+     
+    switch ($method) {
+        case "GET":
+            curl_setopt($curl, CURLOPT_HTTPGET, true);
+            break;
+    }
+    
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+        'Content-Type: application/json',
+    ));
+    
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+    $result = curl_exec($curl);
+     
+    if(!$result) {
+        echo("Connection failure!");
+    }
+    curl_close($curl);
+    return $result;
+}
+
+// Call the API to get all PIDs
+$data = APIcall("GET", $url);
+
+// Decode the JSON response
+$response = json_decode($data, true);
+
+// Loop through each PID and display the data in the same format as before
+foreach ($response as $player) {
+    echo "Player ID: " . $player["Player ID"] . "<br>";
+    echo "Name: " . $player["Name"] . "<br>";
+    echo "Position: " . $player["Position"] . "<br>";
+    echo "Fumbles: " . $player["Fumbles"] . "<br>";
+    echo "Passes Attempted: " . $player["Passes Attempted"] . "<br>";
+    echo "Passes Completed: " . $player["Passes Completed"] . "<br>";
+    echo "Passes Touchdown: " . $player["Passes Touchdown"] . "<br>";
+    echo "Passes Yards: " . $player["Passes Yards"] . "<br>";
+    echo "Received Touchdowns: " . $player["Received Touchdowns"] . "<br>";
+    echo "Received Yards: " . $player["Received Yards"] . "<br>";
+    echo "Receptions: " . $player["Receptions"] . "<br>";
+    echo "Targets: " . $player["Targets"] . "<br>";
+    echo "Rush Attempts: " . $player["Rush Attempts"] . "<br>";
+    echo "Rush Touchdowns: " . $player["Rush Touchdowns"] . "<br>";
+    echo "Rushed Yards: " . $player["Rushed Yards"] . "<br>";
+    echo "Team: " . $player["Team"] . "<br>";
+    echo "<br>";
+}
+?>
