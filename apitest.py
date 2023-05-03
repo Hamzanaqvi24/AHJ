@@ -144,6 +144,18 @@ def GET_Pstats():
     cursor.close()
     return result
 
+@app.route('/fpts', methods=['GET'])
+def GET_fp():
+    searchWeek = request.args.get('week', '')
+    searchuid = request.args.get('uid', '')
+    weekNum = "playerswk" + searchWeek
+    dbquery = "SELECT teams.Pid, teams.userId, players.PlayerName, Sum(" + weekNum + ".Fantasypts) AS FantasyTotal from ((players INNER JOIN teams ON players.Pid = teams.Pid) INNER JOIN " + weekNum + " ON players.PlayerName = " + weekNum + ".PlayerName) WHERE teams.userId =" + searchuid + " GROUP BY Pid;"
+    cursor = db.cursor()
+    cursor.execute(dbquery)
+    result = cursor.fetchall()
+    cursor.close()
+    return result
+
 #starting API
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=8080, debug=True)
