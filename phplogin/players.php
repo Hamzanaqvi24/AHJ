@@ -357,6 +357,26 @@ foreach ($players as $player) {
     echo "Rush Touchdowns: " . $player["Rush Touchdowns"] . "<br>";
     echo "Rushed Yards: " . $player["Rushed Yards"] . "<br>";
     echo "Team: " . $player["Team"] . "<br>";
-    echo "<br>";
+    
+    // Add button to add player
+    echo "<button onclick='addPlayer(\"".$player["Player ID"]."\")'>Add Player</button>";
+    
+    echo "<br><br>";
 }
+
 ?>
+<script>
+function addPlayer(playerID) {
+    // Send POST request to API to add player
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "http://127.0.0.1:9999/addPlayer", true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            // Reload page to display updated player list
+            location.reload();
+        }
+    };
+    xhr.send(JSON.stringify({playerID: playerID}));
+}
+</script>
