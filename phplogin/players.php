@@ -357,13 +357,8 @@ foreach ($players as $player) {
     echo "Rush Touchdowns: " . $player["Rush Touchdowns"] . "<br>";
     echo "Rushed Yards: " . $player["Rushed Yards"] . "<br>";
     echo "Team: " . $player["Team"] . "<br>";
-    
-    // Add button to add player
-    echo "<button onclick='addPlayer(\"".$player["Player ID"]."\")'>Add Player</button>";
-    
-    echo "<br><br>";
+    echo '<button onclick="addPlayer(' . $player["Player ID"] . ')">Add Player</button><br><br>';
 }
-
 ?>
 <script>
 function addPlayer(playerID) {
