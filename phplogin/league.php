@@ -183,3 +183,36 @@ foreach ($result as $row) {
 
 echo 'Total Fantasy Points: ' . $totalFpts;
 ?>
+<?php
+// Set API URL and parameters
+$url = 'http://127.0.0.1:9999/fpts?week=1&userId=2';
+
+// Create cURL request
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+// Execute cURL request and get response
+$response = curl_exec($ch);
+curl_close($ch);
+
+// Decode JSON response into array
+$result = json_decode($response, true);
+
+// Loop through result and display player information and total fantasy points
+$totalFpts = 0;
+foreach ($result as $row) {
+    echo 'Player ID: ' . $row['Pid'] . '<br>';
+    echo 'User ID: ' . $row['userId'] . '<br>';
+    echo 'Player Name: ' . $row['PlayerName'] . '<br>';
+    echo 'Fantasy Points: ' . $row['FantasyTotal'] . '<br>';
+    echo '<br>';
+    
+    // Add to total fantasy points
+    $totalFpts += $row['FantasyTotal'];
+}
+
+echo 'Total Fantasy Points: ' . $totalFpts;
+?>
+
+
