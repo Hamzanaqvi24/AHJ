@@ -364,7 +364,7 @@ foreach ($players as $player) {
 function addPlayer(playerID) {
     // Send POST request to API to add player
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "http://127.0.0.1:9999/addPlayer", true);
+    xhr.open("POST", "http://127.0.0.1:9999/addPlayer?pid=" + playerID, true);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {
