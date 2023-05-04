@@ -171,7 +171,7 @@ for ($i = 1; $i <= 17; $i++) {
     echo '<button><a href="?week=' . $i . '">' . $i . '</a></button> ';
   }
 }
-
+echo '<br><br>';
 // Set API URL and parameters with the selected week
 $url = 'http://127.0.0.1:9999/fpts?week=' . $week . '&userId=1';
 
@@ -201,6 +201,7 @@ foreach ($result as $row) {
 }
 
 echo 'Total Fantasy Points: ' . $totalFpts;
+echo '<br><br>';
 ?>
 <?php
 // Set API URL and parameters
