@@ -365,17 +365,20 @@ foreach ($players as $player) {
 ?>
 <script>
 function addPlayer(playerID) {
-    // Send POST request to API to add player
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", "http://127.0.0.1:9999/addPlayer?pid=", true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            // Reload page to display updated player list
-            location.reload();
+    var url = "http://127.0.0.1:9999/addPlayer?pid=" + playerID;
+    var data = JSON.stringify({playerID: playerID});
+
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: data,
+        contentType: "application/json",
+        success: function(response) {
+            console.log(response);
+        },
+        error: function(xhr, textStatus, errorThrown) {
+            console.log(textStatus + ": " + errorThrown);
         }
-    };
-    xhr.send(JSON.stringify({playerID: playerID}));
-}
+    });
 }
 </script>
