@@ -329,6 +329,9 @@ function postPlayerName(playerName) {
 </html>
 
 <?php
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
 // Send GET request to API to retrieve all players
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, "http://127.0.0.1:9999/getAllPid");
