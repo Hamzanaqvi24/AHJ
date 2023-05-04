@@ -111,3 +111,55 @@ check_loggedin($pdo);
     </div>
     </body>
     </html>
+<?php
+session_start();
+// Send GET request to API to retrieve all players
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, "http://127.0.0.1:9999/showTeam?userId=" . $_SESSION['id']);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+$response = curl_exec($ch);
+curl_close($ch);
+
+// Decode JSON response into PHP array
+$players = json_decode($response, true);
+
+// Loop through players and display their information
+foreach ($players as $player) {
+    echo "Player ID: " . $player["Player ID"] . "<br>";
+    echo "Name: " . $player["Name"] . "<br>";
+    echo "Position: " . $player["Position"] . "<br>";
+    echo "Fumbles: " . $player["Fumbles"] . "<br>";
+    echo "Passes Attempted: " . $player["Passes Attempted"] . "<br>";
+    echo "Passes Completed: " . $player["Passes Completed"] . "<br>";
+    echo "Passes Touchdown: " . $player["Passes Touchdown"] . "<br>";
+    echo "Passes Yards: " . $player["Passes Yards"] . "<br>";
+    echo "Received Touchdowns: " . $player["Received Touchdowns"] . "<br>";
+    echo "Received Yards: " . $player["Received Yards"] . "<br>";
+    echo "Receptions: " . $player["Receptions"] . "<br>";
+    echo "Targets: " . $player["Targets"] . "<br>";
+    echo "Rush Attempts: " . $player["Rush Attempts"] . "<br>";
+    echo "Rush Touchdowns: " . $player["Rush Touchdowns"] . "<br>";
+    echo "Rushed Yards: " . $player["Rushed Yards"] . "<br>";
+    echo "Team: " . $player["Team"] . "<br>";
+
+    // Add button to add player
+    echo '<button onclick="dropPlayer(' . $player["Player ID"] . ')">Drop Player</button>';
+    echo "<br><br>";
+}
+?>
+<script>
+function dropPlayer(playerID) {
+    // Send POST request to API to drop player using XHR
+    var url = "http://127.0.0.1:9999/dropPlayer?pid=" + playerID;
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader("Content-Type", "plain/text");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            // Reload page to display updated player list
+            location.reload();
+        }
+    };
+    xhr.send();
+}
+</script>
