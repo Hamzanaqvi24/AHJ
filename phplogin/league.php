@@ -153,8 +153,27 @@ check_loggedin($pdo);
 </html>
 
 <?php
-// Set API URL and parameters
-$url = 'http://127.0.0.1:9999/fpts?week=1&userId=1';
+// Set default week
+$week = 1;
+
+// Check if a specific week button was clicked
+if (isset($_GET['week'])) {
+  $week = $_GET['week'];
+}
+
+// Create buttons for each week
+echo '<br><br>';
+echo 'Select Week: ';
+for ($i = 1; $i <= 17; $i++) {
+  if ($i == $week) {
+    echo '<button disabled>' . $i . '</button> ';
+  } else {
+    echo '<button><a href="?week=' . $i . '">' . $i . '</a></button> ';
+  }
+}
+
+// Set API URL and parameters with the selected week
+$url = 'http://127.0.0.1:9999/fpts?week=' . $week . '&userId=1';
 
 // Create cURL request
 $ch = curl_init();
@@ -181,11 +200,11 @@ foreach ($result as $row) {
     $totalFpts += $row['FantasyTotal'];
 }
 
-echo 'Total Fantasy Points: ' . $totalFpts . '<br><br>';
+echo 'Total Fantasy Points: ' . $totalFpts;
 ?>
 <?php
 // Set API URL and parameters
-$url = 'http://127.0.0.1:9999/fpts?week=1&userId=2';
+$url = 'http://127.0.0.1:9999/fpts?week='. $week .'&userId=2';
 
 // Create cURL request
 $ch = curl_init();
