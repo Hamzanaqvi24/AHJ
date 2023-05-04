@@ -181,7 +181,7 @@ foreach ($result as $row) {
     $totalFpts += $row['FantasyTotal'];
 }
 
-echo 'Total Fantasy Points: ' . $totalFpts;
+echo 'Total Fantasy Points: ' . $totalFpts . '<br><br>';
 ?>
 <?php
 // Set API URL and parameters
