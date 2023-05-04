@@ -143,14 +143,14 @@ foreach ($players as $player) {
     echo "Team: " . $player["Team"] . "<br>";
 
     // Add button to add player
-    echo '<button onclick="dropPlayer(' . $player["Player ID"] . ')">Drop Player</button>';
+    echo '<button onclick="dropPlayer(' . $player["Player ID"] . ',' . $_SESSION['id'] . ')">Drop Player</button>';
     echo "<br><br>";
 }
 ?>
 <script>
-function dropPlayer(playerID) {
+function dropPlayer(playerID, userID) {
     // Send POST request to API to drop player using XHR
-    var url = "http://127.0.0.1:9999/dropPlayer?pid=" + playerID;
+    var url = "http://127.0.0.1:9999/dropPlayer?pid=" + playerID + "&uid=" + userID;
     var xhr = new XMLHttpRequest();
     xhr.open("POST", url, true);
     xhr.setRequestHeader("Content-Type", "plain/text");
