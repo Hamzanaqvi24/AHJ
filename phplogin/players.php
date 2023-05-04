@@ -369,7 +369,7 @@ function addPlayer(playerID) {
     var data = {playerID: playerID};
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "http://127.0.0.1:9999/addPlayer?pid=" + playerID, true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.setRequestHeader('Content-Type','text/plain');
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {
             // Reload page to display updated player list
