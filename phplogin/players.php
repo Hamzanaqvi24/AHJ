@@ -335,7 +335,7 @@ header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 // Send GET request to API to retrieve all players
 $ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, "http://127.0.0.1:9999/getAllPid");
+curl_setopt($ch, CURLOPT_URL, "http://10.0.2.15:9999/getAllPid");
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 $response = curl_exec($ch);
 curl_close($ch);
@@ -369,7 +369,7 @@ function addPlayer(playerID, userID) {
     // Send POST request to API to add player using cURL
     var data = {playerID: playerID};
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "http://127.0.0.1:9999/addPlayer?pid=" + playerID + "&uid=" + userID, true);
+    xhr.open("POST", "http://10.0.2.15:9999/addPlayer?pid=" + playerID + "&uid=" + userID, true);
     xhr.setRequestHeader('Content-Type','text/plain');
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {
