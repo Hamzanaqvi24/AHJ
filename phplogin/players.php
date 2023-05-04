@@ -366,22 +366,16 @@ foreach ($players as $player) {
 <script>
 function addPlayer(playerID) {
     // Send POST request to API to add player
-    var url = "http://127.0.0.1:9999/addPlayer?pid=" + playerdID;
-    var data = JSON.stringify({playerID: playerID});
-
-    var curl = curl_init();
-    curl_setopt(curl, CURLOPT_URL, url);
-    curl_setopt(curl, CURLOPT_POST, true);
-    curl_setopt(curl, CURLOPT_POSTFIELDS, data);
-    curl_setopt(curl, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt(curl, CURLOPT_HTTPHEADER, array(
-        'Content-Type: application/json',
-        'Content-Length: ' . strlen(data))
-    );
-    var response = curl_exec(curl);
-    curl_close(curl);
-
-    // Reload page to display updated player list
-    location.reload();
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "http://127.0.0.1:9999/addPlayer?pid=", true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            // Reload page to display updated player list
+            location.reload();
+        }
+    };
+    xhr.send(JSON.stringify({playerID: playerID}));
+}
 }
 </script>
