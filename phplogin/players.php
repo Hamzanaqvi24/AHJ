@@ -362,16 +362,24 @@ foreach ($players as $player) {
 ?>
 <script>
 function addPlayer(playerID) {
-    // Send POST request to API to add player
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", "http://127.0.0.1:9999/addPlayer?pid=" + playerID, true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            // Reload page to display updated player list
-            location.reload();
-        }
-    };
-    xhr.send(JSON.stringify({playerID: playerID}));
+  // Send POST request to API to add player
+  fetch('http://127.0.0.1:9999/addPlayer?pid=' + playerID, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ playerID: playerID })
+  })
+  .then(response => {
+    if (response.ok) {
+      // Reload page to display updated player list
+      location.reload();
+    } else {
+      throw new Error('Network response was not ok.');
+    }
+  })
+  .catch(error => {
+    console.error('There was a problem with the fetch operation:', error);
+  });
 }
 </script>
