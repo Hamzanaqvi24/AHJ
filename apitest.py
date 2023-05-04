@@ -3,10 +3,10 @@ import mysql.connector as mysql
 
 #database connection
 db = mysql.connect(
-    host = "localhost",
-    user = "root",
-    passwd = "toor",
-    database = "apitest"
+    host = "10.0.2.15",
+    user = "admin",
+    passwd = "password",
+    database = "Apitest"
 )
 
 app = Flask(__name__)
