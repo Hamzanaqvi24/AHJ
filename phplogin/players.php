@@ -329,6 +329,7 @@ function postPlayerName(playerName) {
 </html>
 
 <?php
+session_start();
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
@@ -360,15 +361,15 @@ foreach ($players as $player) {
     echo "Rush Touchdowns: " . $player["Rush Touchdowns"] . "<br>";
     echo "Rushed Yards: " . $player["Rushed Yards"] . "<br>";
     echo "Team: " . $player["Team"] . "<br>";
-    echo '<button onclick="addPlayer(' . $player["Player ID"] . ')">Add Player</button><br><br>';
+    echo '<button onclick="addPlayer(' . $player["Player ID"] . ',' . $_SESSION['id'] .')">Add Player</button><br><br>';
 }
 ?>
 <script>
-function addPlayer(playerID) {
+function addPlayer(playerID, userID) {
     // Send POST request to API to add player using cURL
     var data = {playerID: playerID};
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "http://127.0.0.1:9999/addPlayer?pid=" + playerID, true);
+    xhr.open("POST", "http://127.0.0.1:9999/addPlayer?pid=" + playerID + "&uid=" + userID, true);
     xhr.setRequestHeader('Content-Type','text/plain');
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {
