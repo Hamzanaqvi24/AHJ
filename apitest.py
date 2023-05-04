@@ -224,6 +224,6 @@ def GET_all_pids():
 
 #starting API
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=9999, debug=True)
+    app.run(host='10.0.2.15', port=9999, debug=True)
 
 # pip install -r requirement.txt
