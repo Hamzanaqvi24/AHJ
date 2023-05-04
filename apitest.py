@@ -117,7 +117,8 @@ def GET_players():
 @app.route('/addPlayer', methods=['POST'])
 def add_Player():
     PidQuery = request.args.get('pid', '')
-    dbquery = "INSERT INTO teams (userId, Pid, teamId) VALUES (1, " + PidQuery + ", 1);"
+    uidQuery = request.args.get('uid', '')
+    dbquery = "INSERT INTO teams (userId, Pid, teamId) VALUES (" + uidQuery + ", " + PidQuery + ", " + uidQuery +");"
     cursor = db.cursor()
     cursor.execute(dbquery)
     cursor.close()
@@ -128,7 +129,8 @@ def add_Player():
 @app.route('/dropPlayer', methods=['GET'])
 def rm_Player():
     PidQuery = request.args.get('pid', '')
-    dbquery = "DELETE FROM teams WHERE pid=" + PidQuery + ";"
+    uidQuery =  request.args.get('uid', '')
+    dbquery = "DELETE FROM teams WHERE pid=" + PidQuery + " AND userId=" + uidQuery + ";"
     cursor = db.cursor()
     cursor.execute(dbquery)
     cursor.close()
@@ -178,29 +180,17 @@ def GET_fp():
     cursor.execute(dbquery)
     result = cursor.fetchall()
     cursor.close()
-    return result
-
-@app.route('/compareFP', methods=['GET'])
-def compare_fp():
-    searchWeek = request.args.get('week', '')
-    dbquery = "SELECT teams.Pid, teams.userId, players.PlayerName, Sum(playerswk" + searchWeek + ".Fantasypts) AS FantasyTotal from ((players INNER JOIN teams ON players.Pid = teams.Pid) INNER JOIN playerswk" + searchWeek + " ON players.PlayerName = playerswk" + searchWeek + ".PlayerName) WHERE teams.userId = 1 GROUP BY Pid;"
-    cursor = db.cursor()
-    cursor.execute(dbquery)
-    result1 = cursor.fetchall()
-    #dbquery = "SELECT teams.Pid, teams.userId, players.PlayerName, Sum(playerswk" + searchWeek + ".Fantasypts) AS FantasyTotal from ((players INNER JOIN teams ON players.Pid = teams.Pid) INNER JOIN playerswk" + searchWeek + " ON players.PlayerName = playerswk" + searchWeek + ".PlayerName) WHERE teams.userId = 2 GROUP BY Pid;"
-    cursor.execute(dbquery)
-    result2 = cursor.fetchall()
-    score1 = 0
-    score2 = 0
-    for result in result1:
-        points = []
-        player = {
-            "Fantasy Points Total": result1[3]
-        }
-    return jsonify(player)
-
-
-
+    # Convert result to list of dictionaries
+    result_dict = []
+    for row in result:
+        result_dict.append({
+            "Pid": row[0],
+            "userId": row[1],
+            "PlayerName": row[2],
+            "FantasyTotal": row[3]
+        })
+    # Return result as JSON
+    return jsonify(result_dict)
 
 @app.route('/getAllPid', methods=['GET'])
 def GET_all_pids():
